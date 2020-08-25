@@ -1,4 +1,4 @@
-import { ChatMessage, Action } from '../types';
+import { ChatMessage, Action } from '../../types';
 
 const initialState = {
   userName: '',

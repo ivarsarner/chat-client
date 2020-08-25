@@ -1,4 +1,4 @@
-import { ChatMessage } from '../types';
+import { ChatMessage } from '../../types';
 
 export const chatActions = {
   SEND_MESSAGE: 'SEND_MESSAGE',

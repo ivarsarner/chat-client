@@ -1,4 +1,4 @@
-import { User, Action } from '../types';
+import { User, Action } from '../../types';
 
 const initialState = {
   id: '',
