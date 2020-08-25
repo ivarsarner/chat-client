@@ -1,12 +1,11 @@
-import { ChatMessage, Action } from '../../types';
+import { ChatState, Action } from '../../types';
 
 const initialState = {
-  userName: '',
-  message: '',
-  timeSent: '',
+  connectedUsers: 0,
+  messages: []
 };
 
-const chatReducer = (state: ChatMessage = initialState, action: Action) => {
+const chatReducer = (state: ChatState = initialState, action: Action) => {
   switch (action.type) {
     case 'SEND_MESSAGE':
       return action.payload;

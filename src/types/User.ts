@@ -1,5 +1,5 @@
-export interface User {
-  id: string;
-  userName: string;
-  dateRegistered?: string;
+export interface UserState {
+  isConnected: boolean
+  id: string
+  userName: string
 }
