@@ -1,7 +1,12 @@
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import reducers from './reducers';
+import { chatReducer } from './reducers';
 
-const store = createStore(reducers, composeWithDevTools());
+const rootReducer = combineReducers({
+  chatReducer,
+});
 
-export default store;
+export const store = createStore(rootReducer, composeWithDevTools());
+
+export type RootState = ReturnType<typeof rootReducer>;
+

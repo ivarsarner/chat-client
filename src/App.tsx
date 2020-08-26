@@ -2,7 +2,7 @@ import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
-// import Lobby from './components/Lobby';
+import { ChatContainer } from './containers/chat';
 
 const useStyles = makeStyles({
   root: {
@@ -19,7 +19,9 @@ const App = () => {
   return (
     <>
       <CssBaseline />
-      <Container className={classes.root}>{/* <Lobby /> */}</Container>
+      <Container className={classes.root}>
+        <ChatContainer />
+      </Container>
     </>
   );
 };
