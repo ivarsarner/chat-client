@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Message } from '../../store/types';
@@ -21,6 +21,19 @@ export const ChatFeed: React.FC<Props> = ({ messages }) => {
   const classes = useStyles();
 
   const chatFeedRef = useRef<HTMLDivElement>(null);
+
+  /*   const scrollToChatBottom = (): void => {
+    if (chatFeedRef.current) {
+      const chatFeedCurrent = chatFeedRef.current;
+      const scrollValue = chatFeedCurrent.scrollHeight;
+      const scrollOptions = { top: scrollValue, left: 0, behavior: 'smooth' };
+      chatFeedCurrent.scroll(scrollOptions);
+    }
+  };
+
+  useEffect(() => {
+    scrollToChatBottom();
+  }, [messages]); */
 
   return (
     <div className={classes.chatFeed} ref={chatFeedRef}>

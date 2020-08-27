@@ -16,10 +16,10 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  text: string;
+  sendMessage: (message: string) => void;
 }
 
-export const ChatForm: React.FC<Props> = ({ text }) => {
+export const ChatForm: React.FC<Props> = ({ sendMessage }) => {
   const classes = useStyles();
 
   const [newMessage, setNewMessage] = useState('');
@@ -30,7 +30,7 @@ export const ChatForm: React.FC<Props> = ({ text }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('handle submit clicked', text, newMessage);
+    sendMessage(newMessage);
     setNewMessage('');
   };
 

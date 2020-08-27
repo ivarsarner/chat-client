@@ -23,12 +23,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChatWrapper: React.FC<ChatState> = ({
-  user,
-  messages,
-  userList,
-  errorMessage,
-}) => {
+interface Functions {
+  connectUser: (userName: string) => void;
+  disconnectUser: (userName: string) => void;
+  sendMessage: (message: string) => void;
+}
+
+interface Props {
+  state: ChatState;
+  functions: Functions;
+}
+
+const ChatWrapper: React.FC<Props> = ({ state, functions }) => {
   const classes = useStyles();
 
   return (
@@ -36,19 +42,21 @@ const ChatWrapper: React.FC<ChatState> = ({
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <ChatHeader userName={user.userName} />
+            <ChatHeader userName={state.user.userName} />
           </Paper>
         </Grid>
         <Grid item xs={12} md={6}>
           <Paper className={classes.paper}>
             <div className={classes.chatMainContainer}>
-              <ChatFeed messages={messages} />
-              <ChatForm text="oh hi mark" />
+              <ChatFeed messages={state.messages} />
+              <ChatForm sendMessage={functions.sendMessage} />
             </div>
           </Paper>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Paper className={classes.paper}>Users in chat</Paper>
+          <Paper className={classes.paper}>
+            Users in chat: {state.userList.length}
+          </Paper>
         </Grid>
       </Grid>
     </div>

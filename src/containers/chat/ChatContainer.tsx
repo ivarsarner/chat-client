@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import io from 'socket.io-client';
 
@@ -13,25 +13,68 @@ import {
   addMessage,
 } from '../../store/actions';
 
+/* import {
+  connectUser,
+  disconnectUser,
+  sendMessage,
+  socketUrl,
+} from '../../lib/socket'; */
+
+import { socketUrl } from '../../lib/socket';
+
 import Chat from '../../components/chat';
 
+type Socket = SocketIOClient.Socket | null;
+
+const socket = io(socketUrl);
+
 export const ChatContainer: React.FC = () => {
+  // const [socket, setSocket] = useState<Socket>(null);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    /* if (!socket) {
+      console.log('connecting to socket');
+      setSocket(io(socketUrl));
+    } */
+
+    socket.on('MESSAGE', (message: Message) => {
+      console.log('testing message thing');
+      dispatch(addMessage(message));
+    });
+
+  }, []);
+
+
+
+  const connectUser = (userName: string): void => {
+    if (socket) {
+      socket.emit('CONNECT_USER', userName);
+    }
+  };
+
+  const disconnectUser = (userName: string): void => {
+    if (socket) {
+      socket.emit('DISCONNECT_USER', userName);
+    }
+    dispatch(logoutUser());
+  };
+
+  const sendMessage = (message: string): void => {
+    if (socket) {
+      socket.emit('MESSAGE', message);
+    }
+  };
 
   const chatState: ChatState = useSelector(
     (state: RootState) => state.chatReducer
   );
 
-  const { user, messages, userList, errorMessage } = chatState;
+  const chatFunctions = {
+    connectUser,
+    disconnectUser,
+    sendMessage,
+  };
 
-  console.log(chatState);
-
-  return (
-    <Chat
-      user={user}
-      messages={messages}
-      userList={userList}
-      errorMessage={errorMessage}
-    />
-  );
+  return <Chat state={chatState} functions={chatFunctions} />;
 };
