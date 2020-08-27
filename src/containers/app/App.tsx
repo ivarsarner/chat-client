@@ -1,8 +1,12 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
-import { ChatContainer } from './containers/chat';
+
+import { RootState } from '../../store';
+import { ChatActions, ChatState, User, Message } from '../../store/types';
+import { ChatContainer } from '../chat';
 
 const useStyles = makeStyles({
   root: {
@@ -14,16 +18,19 @@ const useStyles = makeStyles({
   },
 });
 
-const App = () => {
+export const App = () => {
   const classes = useStyles();
+
+  const chatState: ChatState = useSelector(
+    (state: RootState) => state.chatReducer
+  );
+
   return (
     <>
       <CssBaseline />
       <Container className={classes.root}>
-        <ChatContainer />
+        {chatState.user.userName ? <ChatContainer /> : <div>login bro</div>}
       </Container>
     </>
   );
 };
-
-export default App;

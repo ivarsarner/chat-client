@@ -2,8 +2,8 @@ import { ChatActions, ChatActionTypes, ChatState } from '../types';
 
 const initialState: ChatState = {
   user: {
-    id: 'bösaaa',
-    userName: 'böb',
+    id: '54646546',
+    userName: 'Böb',
   },
   messages: [],
   userList: [],

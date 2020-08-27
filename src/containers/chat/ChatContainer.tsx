@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import io from 'socket.io-client';
 
-// import { RootState } from '../../store';
+import { RootState } from '../../store';
 import { ChatActions, ChatState, User, Message } from '../../store/types';
 import {
   loginUser,
@@ -13,12 +13,25 @@ import {
   addMessage,
 } from '../../store/actions';
 
+import Chat from '../../components/chat';
+
 export const ChatContainer: React.FC = () => {
   const dispatch = useDispatch();
 
-  const user: User = useSelector((state: ChatState) => state.user);
+  const chatState: ChatState = useSelector(
+    (state: RootState) => state.chatReducer
+  );
 
-  console.log(user?.userName);
+  const { user, messages, userList, errorMessage } = chatState;
 
-  return <div>hibob</div>;
+  console.log(chatState);
+
+  return (
+    <Chat
+      user={user}
+      messages={messages}
+      userList={userList}
+      errorMessage={errorMessage}
+    />
+  );
 };
