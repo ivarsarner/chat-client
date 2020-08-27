@@ -42,10 +42,7 @@ export const ChatContainer: React.FC = () => {
       console.log('testing message thing');
       dispatch(addMessage(message));
     });
-
   }, []);
-
-
 
   const connectUser = (userName: string): void => {
     if (socket) {
