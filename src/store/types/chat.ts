@@ -13,7 +13,7 @@ export interface User {
 }
 
 export interface Message {
-  author: string;
+  userName: string;
   message: string;
   timestamp: number;
   id: string;

@@ -43,7 +43,7 @@ export const ChatFeed: React.FC<Props> = ({ messages }) => {
         messages.map((message: Message) => (
           <div key={message.id}>
             <div>
-              <strong>{message.author}</strong>
+              <strong>{message.userName}</strong>
             </div>
             <div>{message.message}</div>
           </div>
