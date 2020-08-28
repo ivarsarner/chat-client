@@ -29,6 +29,10 @@ type Socket = SocketIOClient.Socket | null;
 const socket = io(socketUrl);
 
 export const ChatContainer: React.FC = () => {
+  const chatState: ChatState = useSelector(
+    (state: RootState) => state.chatReducer
+  );
+
   // const [socket, setSocket] = useState<Socket>(null);
   const dispatch = useDispatch();
 
@@ -62,10 +66,6 @@ export const ChatContainer: React.FC = () => {
       socket.emit('MESSAGE', message);
     }
   };
-
-  const chatState: ChatState = useSelector(
-    (state: RootState) => state.chatReducer
-  );
 
   const chatFunctions = {
     connectUser,

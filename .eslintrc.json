@@ -20,7 +20,7 @@
     }
   },
   "rules": {
-    "prettier/prettier": [
+    /* "prettier/prettier": [
       "error",
       {
         "endOfLine": "lf",
@@ -31,7 +31,7 @@
         "arrowParens": "always",
         "printWidth": 80
       }
-    ],
+    ], */
     "no-console": "off",
     "object-curly-spacing": [
       "warn",

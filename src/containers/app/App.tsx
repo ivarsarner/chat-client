@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { RootState } from '../../store';
 import { ChatActions, ChatState, User, Message } from '../../store/types';
 import { ChatContainer } from '../chat';
+import { LandingPageContainer } from '../landingPage';
 
 const useStyles = makeStyles({
   root: {
@@ -29,7 +30,7 @@ export const App = () => {
     <>
       <CssBaseline />
       <Container className={classes.root}>
-        {chatState.user.userName ? <ChatContainer /> : <div>login bro</div>}
+        {chatState.user.userName ? <ChatContainer /> : <LandingPageContainer />}
       </Container>
     </>
   );
