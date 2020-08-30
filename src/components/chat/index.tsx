@@ -5,6 +5,7 @@ import { ChatState, Message, User } from '../../store/types';
 import { ChatHeader } from './ChatHeader';
 import { ChatFeed } from './ChatFeed';
 import { ChatForm } from './ChatForm';
+import { connectUser } from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   gridContainerRoot: {
@@ -30,12 +31,15 @@ interface ChatActions {
 }
 
 interface Props {
+  currentUser: User;
   messages: Message[];
   connectedUsers: User[];
+  typingUsers: User[];
   chatActions: ChatActions;
 }
 
 const ChatWrapper: React.FC<Props> = ({
+  currentUser,
   messages,
   connectedUsers,
   chatActions,
@@ -48,7 +52,7 @@ const ChatWrapper: React.FC<Props> = ({
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <ChatHeader
-              userName="I am header"
+              userName={currentUser.userName}
               onClick={chatActions.disconnectUser}
             />
           </Paper>
@@ -63,7 +67,12 @@ const ChatWrapper: React.FC<Props> = ({
         </Grid>
         <Grid item xs={12} md={6}>
           <Paper className={classes.paper}>
-            Users in chat: {connectedUsers.length}
+            Users in connected: {connectedUsers.length}
+            <div>
+              {connectedUsers.map((user) => (
+                <div key={user.id}>{user.userName}</div>
+              ))}
+            </div>
           </Paper>
         </Grid>
       </Grid>

@@ -1,10 +1,12 @@
 export enum ChatActions {
+  USER_CONNECTED = 'USER_CONNECTED',
   STORE_SOCKET = 'STORE_SOCKET',
   NEW_ERROR = 'NEW_ERROR',
   CLEAR_ERROR = 'CLEAR_ERROR',
   DISCONNECT = 'DISCONNECT',
   STORE_CONNECTED_USERS = 'GET_CONNECTED_USERS',
   STORE_MESSAGE = 'STORE_MESSAGE',
+  STORE_TYPING_USERS = 'STORE_TYPING_USERS',
 }
 
 export type Socket = SocketIOClient.Socket | null;
@@ -30,10 +32,16 @@ export interface Error {
 export interface ChatState {
   isConnected: boolean;
   socket: Socket;
-  user: User;
+  currentUser: User;
   messages: Message[];
   connectedUsers: User[];
   error: Error;
+  typingUsers: User[];
+}
+
+interface UserConnectedAction {
+  type: typeof ChatActions.USER_CONNECTED;
+  payload: User;
 }
 
 interface StoreSocketAction {
@@ -64,10 +72,17 @@ interface StoreMessageAction {
   payload: Message;
 }
 
+interface StoreTypingUsersAction {
+  type: typeof ChatActions.STORE_TYPING_USERS;
+  payload: User[];
+}
+
 export type ChatActionTypes =
+  | UserConnectedAction
   | StoreSocketAction
   | ErrorAction
   | ClearErrorAction
   | DisconnectAction
   | StoreConnectedUsersAction
-  | StoreMessageAction;
+  | StoreMessageAction
+  | StoreTypingUsersAction;

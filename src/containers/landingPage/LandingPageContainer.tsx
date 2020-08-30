@@ -2,65 +2,64 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import io from 'socket.io-client';
 
-import { socketUrl } from '../../lib/socket';
+import { socketUrl } from '../../config';
 import { LandingPageForm } from '../../components/landingPage';
-import { User } from '../../store/types';
+import { User, Socket, Message } from '../../store/types';
 import { RootState } from '../../store';
-import { newError, storeSocket } from '../../store/actions';
+import {
+  newError,
+  storeSocket,
+  connectUser,
+  storeMessage,
+  storeConnectedUsers,
+} from '../../store/actions';
 
 export const LandingPageContainer: React.FC = () => {
   const dispatch = useDispatch();
+  const [newUser, setNewUser] = useState<User>();
 
   const { socket, error } = useSelector(
     (state: RootState) => state.chatReducer
   );
 
-  let newSocket: SocketIOClient.Socket | null;
-
-  const connectRequest = (userName: string) => {
-    newSocket = io(socketUrl, { query: { userName } });
-
-    newSocket.on('connect', () => {
-      dispatch(storeSocket(newSocket));
+  const connectToSocketServer = (userName: string) => {
+    const newSocket = io(socketUrl, { query: { userName } });
+    setNewUser({
+      id: newSocket.id,
+      userName,
     });
-
-    newSocket.on('error', (errorCode: string) => {
-      if (errorCode === 'userName_taken') {
-        dispatch(
-          newError({
-            isError: true,
-            errorCode,
-            errorMessage: `The name "${userName}" is already taken`,
-          })
-        );
-      }
-      if (errorCode === 'inactivity_disconnect') {
-        dispatch(
-          newError({
-            isError: true,
-            errorCode,
-            errorMessage: 'You were disconnected due to inactivity',
-          })
-        );
-      }
-    });
+    dispatch(storeSocket(newSocket));
   };
 
-  /*   useEffect(() => {
-    if (socket) {
-      socket.on('error', (errorMessage: string) => {
-        setError({ isError: true, errorMessage });
+  useEffect(() => {
+    if (socket && newUser) {
+      socket.on('connect', (): void => {
+        dispatch(connectUser(newUser));
       });
-      socket.on('connected', (user: User) => {
-        dispatch(loginUser(user));
+
+      socket.on('error', (errorCode: string): void => {
+        let errorMessage = '';
+
+        switch (errorCode) {
+          case 'userName_taken':
+            errorMessage = 'That name is already taken';
+            break;
+          case 'inactivity_disconnect':
+            errorMessage = 'You were disconnected due to inactivity';
+            break;
+          default:
+            errorMessage = 'An error has occured';
+            break;
+        }
+        dispatch(newError({ isError: true, errorCode, errorMessage }));
       });
     }
-  }, [socket]); */
+  }, [socket]);
 
   return (
     <>
       {error.isError && <span>{error.errorMessage}</span>}
-      <LandingPageForm buttonText="Connect" submit={connectRequest} />
+      <LandingPageForm buttonText="Connect" submit={connectToSocketServer} />
     </>
   );
 };

@@ -7,19 +7,23 @@ import {
   disconnect,
   storeConnectedUsers,
   storeMessage,
+  storeTypingUsers,
 } from '../../store/actions';
 
 import Chat from '../../components/chat';
 
 export const ChatContainer: React.FC = () => {
-  const { socket, messages, connectedUsers } = useSelector(
-    (state: RootState) => state.chatReducer
-  );
+  const {
+    socket,
+    messages,
+    connectedUsers,
+    currentUser,
+    typingUsers,
+  } = useSelector((state: RootState) => state.chatReducer);
 
   const dispatch = useDispatch();
 
   const disconnectUser = (): void => {
-    console.log('discooonect');
     if (socket) {
       socket.close();
     }
@@ -33,7 +37,9 @@ export const ChatContainer: React.FC = () => {
   };
 
   const isTyping = (): void => {
-    console.log('user is typing');
+    if (socket) {
+      socket.emit('typing');
+    }
   };
 
   useEffect(() => {
@@ -41,13 +47,23 @@ export const ChatContainer: React.FC = () => {
       socket.on('message', (message: Message) => {
         dispatch(storeMessage(message));
       });
+
+      socket.on('connected_users', (users: User[]) => {
+        dispatch(storeConnectedUsers(users));
+      });
+
+      socket.on('typing_users', (users: User[]) => {
+        dispatch(storeTypingUsers(users));
+      });
     }
-  }, [socket]);
+  }, []);
 
   return (
     <Chat
+      currentUser={currentUser}
       messages={messages}
       connectedUsers={connectedUsers}
+      typingUsers={typingUsers}
       chatActions={{ disconnectUser, sendMessage, isTyping }}
     />
   );

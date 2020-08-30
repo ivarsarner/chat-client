@@ -3,7 +3,7 @@ import { ChatActions, ChatActionTypes, ChatState } from '../types';
 const initialState: ChatState = {
   isConnected: false,
   socket: null,
-  user: {
+  currentUser: {
     id: '',
     userName: '',
   },
@@ -14,6 +14,7 @@ const initialState: ChatState = {
     errorCode: '',
     errorMessage: '',
   },
+  typingUsers: [],
 };
 
 export const chatReducer = (
@@ -21,10 +22,11 @@ export const chatReducer = (
   action: ChatActionTypes
 ): ChatState => {
   switch (action.type) {
+    case ChatActions.USER_CONNECTED:
+      return { ...state, isConnected: true, currentUser: action.payload };
     case ChatActions.STORE_SOCKET:
       return {
         ...state,
-        isConnected: true,
         socket: action.payload,
       };
     case ChatActions.NEW_ERROR:
@@ -48,6 +50,11 @@ export const chatReducer = (
       return {
         ...state,
         messages: [...state.messages, action.payload],
+      };
+    case ChatActions.STORE_TYPING_USERS:
+      return {
+        ...state,
+        typingUsers: action.payload,
       };
     default:
       return state;

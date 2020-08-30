@@ -7,6 +7,11 @@ import {
   Error,
 } from '../types';
 
+export const connectUser = (user: User): ChatActionTypes => ({
+  type: ChatActions.USER_CONNECTED,
+  payload: user,
+});
+
 export const storeSocket = (socket: Socket): ChatActionTypes => ({
   type: ChatActions.STORE_SOCKET,
   payload: socket,
@@ -33,4 +38,9 @@ export const storeConnectedUsers = (users: User[]): ChatActionTypes => ({
 export const storeMessage = (message: Message): ChatActionTypes => ({
   type: ChatActions.STORE_MESSAGE,
   payload: message,
+});
+
+export const storeTypingUsers = (users: User[]): ChatActionTypes => ({
+  type: ChatActions.STORE_TYPING_USERS,
+  payload: users,
 });
