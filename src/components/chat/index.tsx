@@ -1,7 +1,7 @@
 import React from 'react';
 import { Paper, Grid } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
-import { ChatState } from '../../store/types';
+import { ChatState, Message, User } from '../../store/types';
 import { ChatHeader } from './ChatHeader';
 import { ChatFeed } from './ChatFeed';
 import { ChatForm } from './ChatForm';
@@ -23,18 +23,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface Functions {
-  connectUser: (userName: string) => void;
-  disconnectUser: (userName: string) => void;
+interface ChatActions {
+  disconnectUser: () => void;
   sendMessage: (message: string) => void;
+  isTyping: () => void;
 }
 
 interface Props {
-  state: ChatState;
-  functions: Functions;
+  messages: Message[];
+  connectedUsers: User[];
+  chatActions: ChatActions;
 }
 
-const ChatWrapper: React.FC<Props> = ({ state, functions }) => {
+const ChatWrapper: React.FC<Props> = ({
+  messages,
+  connectedUsers,
+  chatActions,
+}) => {
   const classes = useStyles();
 
   return (
@@ -42,20 +47,23 @@ const ChatWrapper: React.FC<Props> = ({ state, functions }) => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <ChatHeader userName={state.user.userName} />
+            <ChatHeader
+              userName="I am header"
+              onClick={chatActions.disconnectUser}
+            />
           </Paper>
         </Grid>
         <Grid item xs={12} md={6}>
           <Paper className={classes.paper}>
             <div className={classes.chatMainContainer}>
-              <ChatFeed messages={state.messages} />
-              <ChatForm sendMessage={functions.sendMessage} />
+              <ChatFeed messages={messages} />
+              <ChatForm sendMessage={chatActions.sendMessage} />
             </div>
           </Paper>
         </Grid>
         <Grid item xs={12} md={6}>
           <Paper className={classes.paper}>
-            Users in chat: {state.userList.length}
+            Users in chat: {connectedUsers.length}
           </Paper>
         </Grid>
       </Grid>

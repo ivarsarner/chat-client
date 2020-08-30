@@ -1,13 +1,13 @@
-import { Socket } from 'dgram';
-
 export enum ChatActions {
-  LOGIN_USER = 'LOGIN_USER',
-  LOGIN_ERROR = 'LOGIN_ERROR',
+  STORE_SOCKET = 'STORE_SOCKET',
+  NEW_ERROR = 'NEW_ERROR',
   CLEAR_ERROR = 'CLEAR_ERROR',
-  LOGOUT_USER = 'LOGOUT_USER',
-  UPDATE_USER_LIST = 'UPDATE_USER_LIST',
-  ADD_MESSAGE = 'ADD_MESSAGE',
+  DISCONNECT = 'DISCONNECT',
+  STORE_CONNECTED_USERS = 'GET_CONNECTED_USERS',
+  STORE_MESSAGE = 'STORE_MESSAGE',
 }
+
+export type Socket = SocketIOClient.Socket | null;
 
 export interface User {
   id: string;
@@ -21,47 +21,53 @@ export interface Message {
   id: string;
 }
 
-export interface ChatState {
-  isConnected: boolean;
-  socket: SocketIOClient.Socket | null;
-  user: User;
-  messages: Message[];
-  userList: User[];
+export interface Error {
+  isError: boolean;
+  errorCode: string;
   errorMessage: string;
 }
 
-interface LoginUserAction {
-  type: typeof ChatActions.LOGIN_USER;
-  payload: User;
+export interface ChatState {
+  isConnected: boolean;
+  socket: Socket;
+  user: User;
+  messages: Message[];
+  connectedUsers: User[];
+  error: Error;
 }
 
-interface LoginErrorAction {
-  type: typeof ChatActions.LOGIN_ERROR;
-  payload: string;
+interface StoreSocketAction {
+  type: typeof ChatActions.STORE_SOCKET;
+  payload: Socket;
+}
+
+interface ErrorAction {
+  type: typeof ChatActions.NEW_ERROR;
+  payload: Error;
 }
 
 interface ClearErrorAction {
   type: typeof ChatActions.CLEAR_ERROR;
 }
 
-interface LogoutUserAction {
-  type: typeof ChatActions.LOGOUT_USER;
+interface DisconnectAction {
+  type: typeof ChatActions.DISCONNECT;
 }
 
-interface UpdateUserListAction {
-  type: typeof ChatActions.UPDATE_USER_LIST;
+interface StoreConnectedUsersAction {
+  type: typeof ChatActions.STORE_CONNECTED_USERS;
   payload: User[];
 }
 
-interface AddMessageAction {
-  type: typeof ChatActions.ADD_MESSAGE;
+interface StoreMessageAction {
+  type: typeof ChatActions.STORE_MESSAGE;
   payload: Message;
 }
 
 export type ChatActionTypes =
-  | LoginUserAction
-  | LoginErrorAction
+  | StoreSocketAction
+  | ErrorAction
   | ClearErrorAction
-  | LogoutUserAction
-  | UpdateUserListAction
-  | AddMessageAction;
+  | DisconnectAction
+  | StoreConnectedUsersAction
+  | StoreMessageAction;

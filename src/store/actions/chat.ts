@@ -1,29 +1,36 @@
-import { ChatActions, ChatActionTypes, Message, User } from '../types';
+import {
+  ChatActions,
+  ChatActionTypes,
+  Message,
+  User,
+  Socket,
+  Error,
+} from '../types';
 
-export const loginUser = (user: User): ChatActionTypes => ({
-  type: ChatActions.LOGIN_USER,
-  payload: user,
+export const storeSocket = (socket: Socket): ChatActionTypes => ({
+  type: ChatActions.STORE_SOCKET,
+  payload: socket,
 });
 
-export const loginError = (errorMessage: string): ChatActionTypes => ({
-  type: ChatActions.LOGIN_ERROR,
-  payload: errorMessage,
+export const newError = (error: Error): ChatActionTypes => ({
+  type: ChatActions.NEW_ERROR,
+  payload: error,
 });
 
 export const clearError = (): ChatActionTypes => ({
   type: ChatActions.CLEAR_ERROR,
 });
 
-export const logoutUser = (): ChatActionTypes => ({
-  type: ChatActions.LOGOUT_USER,
+export const disconnect = (): ChatActionTypes => ({
+  type: ChatActions.DISCONNECT,
 });
 
-export const updateUserList = (users: User[]): ChatActionTypes => ({
-  type: ChatActions.UPDATE_USER_LIST,
+export const storeConnectedUsers = (users: User[]): ChatActionTypes => ({
+  type: ChatActions.STORE_CONNECTED_USERS,
   payload: users,
 });
 
-export const addMessage = (message: Message): ChatActionTypes => ({
-  type: ChatActions.ADD_MESSAGE,
+export const storeMessage = (message: Message): ChatActionTypes => ({
+  type: ChatActions.STORE_MESSAGE,
   payload: message,
 });

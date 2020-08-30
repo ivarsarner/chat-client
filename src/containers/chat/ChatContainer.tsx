@@ -1,76 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import io from 'socket.io-client';
 
 import { RootState } from '../../store';
 import { ChatActions, ChatState, User, Message } from '../../store/types';
 import {
-  loginUser,
-  loginError,
-  clearError,
-  logoutUser,
-  updateUserList,
-  addMessage,
+  disconnect,
+  storeConnectedUsers,
+  storeMessage,
 } from '../../store/actions';
-
-/* import {
-  connectUser,
-  disconnectUser,
-  sendMessage,
-  socketUrl,
-} from '../../lib/socket'; */
-
-import { socketUrl } from '../../lib/socket';
 
 import Chat from '../../components/chat';
 
-type Socket = SocketIOClient.Socket | null;
-
 export const ChatContainer: React.FC = () => {
-  const chatState: ChatState = useSelector(
+  const { socket, messages, connectedUsers } = useSelector(
     (state: RootState) => state.chatReducer
   );
 
-  const [socket, setSocket] = useState<Socket>(null);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (!socket) {
-      console.log('connecting to socket');
-      setSocket(io(socketUrl));
-    }
+  const disconnectUser = (): void => {
+    console.log('discooonect');
     if (socket) {
-      socket.on('message', (message: Message) => {
-        console.log('testing message thing');
-        dispatch(addMessage(message));
-      });
+      socket.close();
     }
-  }, []);
-
-  const connectUser = (userName: string): void => {
-    if (socket) {
-      socket.emit('CONNECT_USER', userName);
-    }
-  };
-
-  const disconnectUser = (userName: string): void => {
-    if (socket) {
-      socket.emit('DISCONNECT_USER', userName);
-    }
-    dispatch(logoutUser());
+    dispatch(disconnect());
   };
 
   const sendMessage = (message: string): void => {
     if (socket) {
-      socket.emit('MESSAGE', message);
+      socket.emit('message', message);
     }
   };
 
-  const chatFunctions = {
-    connectUser,
-    disconnectUser,
-    sendMessage,
+  const isTyping = (): void => {
+    console.log('user is typing');
   };
 
-  return <Chat state={chatState} functions={chatFunctions} />;
+  useEffect(() => {
+    if (socket) {
+      socket.on('message', (message: Message) => {
+        dispatch(storeMessage(message));
+      });
+    }
+  }, [socket]);
+
+  return (
+    <Chat
+      messages={messages}
+      connectedUsers={connectedUsers}
+      chatActions={{ disconnectUser, sendMessage, isTyping }}
+    />
+  );
 };

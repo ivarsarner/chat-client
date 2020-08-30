@@ -22,9 +22,7 @@ const useStyles = makeStyles({
 export const App = () => {
   const classes = useStyles();
 
-  const isConnected: boolean = useSelector(
-    (state: RootState) => state.chatReducer.isConnected
-  );
+  const { isConnected } = useSelector((state: RootState) => state.chatReducer);
 
   return (
     <>

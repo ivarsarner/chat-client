@@ -10,10 +10,20 @@ const useStyles = makeStyles({
 
 interface Props {
   userName: string;
+  onClick: () => void;
 }
 
-export const ChatHeader: React.FC<Props> = ({ userName }) => {
+export const ChatHeader: React.FC<Props> = ({ userName, onClick }) => {
   const classes = useStyles();
 
-  return <span>Welcome {userName}</span>;
+  return (
+    <>
+      <span>Welcome {userName}</span>;
+      <span>
+        <button type="button" onClick={onClick}>
+          Disconnect
+        </button>
+      </span>
+    </>
+  );
 };

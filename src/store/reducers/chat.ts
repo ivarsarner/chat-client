@@ -8,8 +8,12 @@ const initialState: ChatState = {
     userName: '',
   },
   messages: [],
-  userList: [],
-  errorMessage: '',
+  connectedUsers: [],
+  error: {
+    isError: false,
+    errorCode: '',
+    errorMessage: '',
+  },
 };
 
 export const chatReducer = (
@@ -17,23 +21,30 @@ export const chatReducer = (
   action: ChatActionTypes
 ): ChatState => {
   switch (action.type) {
-    case ChatActions.LOGIN_USER:
-      return { ...state, isConnected: true, socket, user: action.payload };
-    case ChatActions.LOGIN_ERROR:
+    case ChatActions.STORE_SOCKET:
       return {
         ...state,
-        errorMessage: action.payload,
+        isConnected: true,
+        socket: action.payload,
+      };
+    case ChatActions.NEW_ERROR:
+      return {
+        ...state,
+        error: action.payload,
       };
     case ChatActions.CLEAR_ERROR:
-      return { ...state, errorMessage: '' };
-    case ChatActions.LOGOUT_USER:
-      return { ...initialState };
-    case ChatActions.UPDATE_USER_LIST:
       return {
         ...state,
-        userList: action.payload,
+        error: { isError: false, errorCode: '', errorMessage: '' },
       };
-    case ChatActions.ADD_MESSAGE:
+    case ChatActions.DISCONNECT:
+      return { ...initialState };
+    case ChatActions.STORE_CONNECTED_USERS:
+      return {
+        ...state,
+        connectedUsers: action.payload,
+      };
+    case ChatActions.STORE_MESSAGE:
       return {
         ...state,
         messages: [...state.messages, action.payload],
