@@ -22,15 +22,15 @@ const useStyles = makeStyles({
 export const App = () => {
   const classes = useStyles();
 
-  const chatState: ChatState = useSelector(
-    (state: RootState) => state.chatReducer
+  const isConnected: boolean = useSelector(
+    (state: RootState) => state.chatReducer.isConnected
   );
 
   return (
     <>
       <CssBaseline />
       <Container className={classes.root}>
-        {chatState.user.userName ? <ChatContainer /> : <LandingPageContainer />}
+        {isConnected ? <ChatContainer /> : <LandingPageContainer />}
       </Container>
     </>
   );

@@ -1,3 +1,5 @@
+import { Socket } from 'dgram';
+
 export enum ChatActions {
   LOGIN_USER = 'LOGIN_USER',
   LOGIN_ERROR = 'LOGIN_ERROR',
@@ -20,6 +22,8 @@ export interface Message {
 }
 
 export interface ChatState {
+  isConnected: boolean;
+  socket: SocketIOClient.Socket | null;
   user: User;
   messages: Message[];
   userList: User[];

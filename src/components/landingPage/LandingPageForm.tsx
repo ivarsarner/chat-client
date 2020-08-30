@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  buttonText: string
+  buttonText: string;
   submit: (message: string) => void;
 }
 
@@ -31,7 +31,6 @@ export const LandingPageForm: React.FC<Props> = ({ buttonText, submit }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(buttonText);
     submit(text);
     setText('');
   };

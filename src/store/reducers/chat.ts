@@ -1,6 +1,8 @@
 import { ChatActions, ChatActionTypes, ChatState } from '../types';
 
 const initialState: ChatState = {
+  isConnected: false,
+  socket: null,
   user: {
     id: '',
     userName: '',
@@ -16,7 +18,7 @@ export const chatReducer = (
 ): ChatState => {
   switch (action.type) {
     case ChatActions.LOGIN_USER:
-      return { ...state, user: action.payload };
+      return { ...state, isConnected: true, socket, user: action.payload };
     case ChatActions.LOGIN_ERROR:
       return {
         ...state,
