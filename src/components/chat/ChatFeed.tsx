@@ -7,7 +7,6 @@ const useStyles = makeStyles({
   chatFeed: {
     flexGrow: 1,
     marginBottom: 5,
-    backgroundColor: 'lightgray',
     overflow: 'auto',
     wordBreak: 'break-all',
   },

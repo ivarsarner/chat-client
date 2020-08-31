@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import io from 'socket.io-client';
 
 import { socketUrl } from '../../config';
-import { LandingPageForm } from '../../components/landingPage';
+import LandingPage from '../../components/landingPage';
 import { User, Socket, Message } from '../../store/types';
 import { RootState } from '../../store';
 import {
@@ -58,8 +58,7 @@ export const LandingPageContainer: React.FC = () => {
 
   return (
     <>
-      {error.isError && <span>{error.errorMessage}</span>}
-      <LandingPageForm buttonText="Connect" submit={connectToSocketServer} />
+      <LandingPage error={error} submit={connectToSocketServer} />
     </>
   );
 };

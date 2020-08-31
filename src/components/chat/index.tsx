@@ -1,11 +1,11 @@
 import React from 'react';
 import { Paper, Grid } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
-import { ChatState, Message, User } from '../../store/types';
+import { Message, User } from '../../store/types';
 import { ChatHeader } from './ChatHeader';
 import { ChatFeed } from './ChatFeed';
 import { ChatForm } from './ChatForm';
-import { connectUser } from '../../store/actions';
+import { UserList } from './UserList';
 
 const useStyles = makeStyles((theme) => ({
   gridContainerRoot: {
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
     color: theme.palette.text.secondary,
   },
   chatMainContainer: {
@@ -48,30 +48,25 @@ const ChatWrapper: React.FC<Props> = ({
 
   return (
     <div className={classes.gridContainerRoot}>
-      <Grid container spacing={3}>
+      <Grid container>
         <Grid item xs={12}>
-          <Paper className={classes.paper}>
+          <Paper className={classes.paper} square>
             <ChatHeader
               userName={currentUser.userName}
               onClick={chatActions.disconnectUser}
             />
           </Paper>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Paper className={classes.paper}>
+        <Grid item xs={3}>
+          <Paper className={classes.paper} square>
+            <UserList users={connectedUsers} />
+          </Paper>
+        </Grid>
+        <Grid item xs={9}>
+          <Paper className={classes.paper} square>
             <div className={classes.chatMainContainer}>
               <ChatFeed messages={messages} />
               <ChatForm sendMessage={chatActions.sendMessage} />
-            </div>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Paper className={classes.paper}>
-            Users in connected: {connectedUsers.length}
-            <div>
-              {connectedUsers.map((user) => (
-                <div key={user.id}>{user.userName}</div>
-              ))}
             </div>
           </Paper>
         </Grid>

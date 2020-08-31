@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ReactChildren } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core/';
 
