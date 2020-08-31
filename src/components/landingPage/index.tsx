@@ -5,20 +5,24 @@ import { TextField, Button, Typography, Container } from '@material-ui/core/';
 import { Error } from '../../store/types';
 
 const useStyles = makeStyles({
-  root: {
-    height: '500px',
+  landingPageRoot: {
+    height: '100vh',
+    width: '100wh',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
   landingPageForm: {
+    height: '40%',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
   },
-  landingPageFormInput: {},
-  landingPageFormSubmitBtn: {},
+  landingPageFormInput: { width: '50%' },
+  landingPageFormSubmitBtn: { width: '50%' },
 });
 
 interface Props {
@@ -42,7 +46,7 @@ const LandingPage: React.FC<Props> = ({ error, submit }) => {
   };
 
   return (
-    <Container className={classes.root}>
+    <Container className={classes.landingPageRoot}>
       <Typography variant="h2" gutterBottom>
         Chat
       </Typography>
@@ -55,11 +59,12 @@ const LandingPage: React.FC<Props> = ({ error, submit }) => {
         <TextField
           className={classes.landingPageFormInput}
           error={error.isError}
+          helperText={error.errorMessage}
           autoFocus
           rows={2}
           rowsMax={2}
           value={text}
-          placeholder="Enter user name..."
+          placeholder="Enter username..."
           onChange={handleChange}
         />
         <Button

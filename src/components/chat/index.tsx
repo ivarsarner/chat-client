@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Grid } from '@material-ui/core/';
+import { Paper, Grid, Container, Box } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 import { Message, User } from '../../store/types';
 import { ChatHeader } from './ChatHeader';
@@ -7,22 +7,25 @@ import { ChatFeed } from './ChatFeed';
 import { ChatForm } from './ChatForm';
 import { UserList } from './UserList';
 
-const useStyles = makeStyles((theme) => ({
-  gridContainerRoot: {
+const useStyles = makeStyles({
+  root: {
     flexGrow: 1,
-    display: 'flex',
-    justifyContent: 'center',
+    height: '100%',
+    padding: 20,
   },
-  paper: {
-    padding: theme.spacing(1),
-    color: theme.palette.text.secondary,
+  chatHeaderGrid: { height: '15%', borderBottom: '#3f51b5 solid 3px' },
+  chatUserListGrid: {
+    height: '85%',
+    backgroundColor: '#3f51b57a',
   },
-  chatMainContainer: {
-    height: 400,
+  chatFeedGrid: {
+    height: '85%',
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'space-between',
+    padding: 20,
   },
-}));
+});
 
 interface ChatActions {
   disconnectUser: () => void;
@@ -38,7 +41,7 @@ interface Props {
   chatActions: ChatActions;
 }
 
-const ChatWrapper: React.FC<Props> = ({
+const ChatPage: React.FC<Props> = ({
   currentUser,
   messages,
   connectedUsers,
@@ -47,35 +50,47 @@ const ChatWrapper: React.FC<Props> = ({
   const classes = useStyles();
 
   return (
-    <div className={classes.gridContainerRoot}>
-      <Grid container>
-        <Grid item xs={12}>
-          <Paper className={classes.paper} square>
-            <ChatHeader
-              userName={currentUser.userName}
-              onClick={chatActions.disconnectUser}
-            />
-          </Paper>
-        </Grid>
-        <Grid item xs={3}>
+    <Grid container className={classes.root}>
+      <Grid item xs={12} className={classes.chatHeaderGrid}>
+        <ChatHeader
+          userName={currentUser.userName}
+          onClick={chatActions.disconnectUser}
+        />
+      </Grid>
+      <Grid item xs={2} className={classes.chatUserListGrid}>
+        <UserList users={connectedUsers} />
+      </Grid>
+      <Grid item xs={10} className={classes.chatFeedGrid}>
+        <ChatFeed messages={messages} />
+        <ChatForm sendMessage={chatActions.sendMessage} />
+      </Grid>
+    </Grid>
+
+    /*     <>
+      <Paper className={classes.paper} square>
+        <ChatHeader
+          userName={currentUser.userName}
+          onClick={chatActions.disconnectUser}
+        />
+      </Paper>
+      <Grid container xs={12}>
+        <Grid item xs={3} className={classes.chatUserListGrid}>
           <Paper className={classes.paper} square>
             <UserList users={connectedUsers} />
           </Paper>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={9} className={classes.chatUserFeedGrid}>
           <Paper className={classes.paper} square>
-            <div className={classes.chatMainContainer}>
-              <ChatFeed messages={messages} />
-              <ChatForm sendMessage={chatActions.sendMessage} />
-            </div>
+            <ChatFeed messages={messages} />
+            <ChatForm sendMessage={chatActions.sendMessage} />
           </Paper>
         </Grid>
       </Grid>
-    </div>
+    </> */
   );
 };
 
-export default ChatWrapper;
+export default ChatPage;
 
 /* const useStyles = makeStyles({
   chatContainer: {

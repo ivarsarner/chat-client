@@ -5,6 +5,8 @@ import { Message } from '../../store/types';
 
 const useStyles = makeStyles({
   chatFeed: {
+    display: 'flex',
+    flexDirection: 'column',
     flexGrow: 1,
     marginBottom: 5,
     overflow: 'auto',
