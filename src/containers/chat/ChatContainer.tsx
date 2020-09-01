@@ -1,17 +1,15 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from '../../store';
-import { ChatActions, ChatState, User, Message } from '../../store/types';
+import { User, Message } from '../../store/types';
 import {
   disconnect,
   storeConnectedUsers,
   storeMessage,
   storeTypingUsers,
-  newError,
 } from '../../store/actions';
 
-import Chat from '../../components/chat';
 import { ChatMain } from '../../components/chat/ChatMain';
 
 export const ChatContainer: React.FC = () => {

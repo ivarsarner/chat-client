@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { Message, User } from '../../store/types';
 import { ChatMessage } from './ChatMessage';
-import { ChatForm } from './ChatForm';
 
 const useStyles = makeStyles({
   root: {

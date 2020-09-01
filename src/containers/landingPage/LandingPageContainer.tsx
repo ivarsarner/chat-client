@@ -4,14 +4,12 @@ import io from 'socket.io-client';
 
 import { socketUrl } from '../../config';
 import LandingPage from '../../components/landingPage';
-import { User, Socket, Message } from '../../store/types';
+import { User } from '../../store/types';
 import { RootState } from '../../store';
 import {
   newError,
   storeSocket,
   userConnected,
-  storeMessage,
-  storeConnectedUsers,
   disconnect,
   clearError,
 } from '../../store/actions';
