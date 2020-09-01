@@ -30,7 +30,6 @@ export const ChatFeed: React.FC<Props> = ({ messages, currentUser }) => {
   const scrollToChatBottom = (): void => {
     if (chatFeedRef.current) {
       const scrollValue = chatFeedRef.current.scrollHeight;
-      console.log(scrollValue);
       chatFeedRef.current.scroll({
         top: scrollValue,
         left: 0,
