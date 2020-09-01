@@ -1,3 +1,7 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c3b2441b-9cbe-442c-8c20-95af1904adbf/deploy-status)](https://app.netlify.com/sites/thirsty-newton-878575/deploys)
+
+- https://thirsty-newton-878575.netlify.app/
+
 # Web chat application
 
 This is a web chat application which is divided in 2 parts:
