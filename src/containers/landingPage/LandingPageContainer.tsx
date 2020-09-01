@@ -12,6 +12,7 @@ import {
   connectUser,
   storeMessage,
   storeConnectedUsers,
+  disconnect,
 } from '../../store/actions';
 
 export const LandingPageContainer: React.FC = () => {
@@ -37,6 +38,31 @@ export const LandingPageContainer: React.FC = () => {
         dispatch(connectUser(newUser));
       });
 
+      socket.on('server_terminated', () => {
+        dispatch(
+          newError({
+            isError: true,
+            errorCode: 'server_terminated',
+            errorMessage: 'The server has terminated',
+          })
+        );
+        dispatch(disconnect());
+      });
+
+      socket.on('disconnect', (reason: string) => {
+        console.log(reason);
+        if (reason === 'io server disconnect') {
+          dispatch(
+            newError({
+              isError: true,
+              errorCode: 'inactivity_disconnect',
+              errorMessage: 'You were disconnected due to inactivity',
+            })
+          );
+        }
+        dispatch(disconnect());
+      });
+
       socket.on('error', (errorCode: string): void => {
         let errorMessage = '';
 
@@ -44,8 +70,8 @@ export const LandingPageContainer: React.FC = () => {
           case 'userName_taken':
             errorMessage = 'That name is already taken';
             break;
-          case 'inactivity_disconnect':
-            errorMessage = 'You were disconnected due to inactivity';
+          case 'server_offline':
+            errorMessage = 'The server is offline';
             break;
           default:
             errorMessage = 'An error has occured';

@@ -8,6 +8,7 @@ import {
   storeConnectedUsers,
   storeMessage,
   storeTypingUsers,
+  newError,
 } from '../../store/actions';
 
 import Chat from '../../components/chat';

@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
     },
     drawerContentUserList: {
-      height: '80%',
+      height: '90vh',
       overflow: 'auto',
     },
     drawerContentUserDisconnect: {

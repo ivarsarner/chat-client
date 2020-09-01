@@ -37,10 +37,10 @@ export const chatReducer = (
     case ChatActions.CLEAR_ERROR:
       return {
         ...state,
-        error: { isError: false, errorCode: '', errorMessage: '' },
+        error: initialState.error,
       };
     case ChatActions.DISCONNECT:
-      return { ...initialState };
+      return { ...initialState, error: state.error };
     case ChatActions.STORE_CONNECTED_USERS:
       return {
         ...state,

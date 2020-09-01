@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Message } from '../../store/types';
 
@@ -9,12 +8,14 @@ const useStyles = makeStyles({
   cardAlignLeft: {
     width: '70%',
     borderRadius: 20,
+    borderBottomLeftRadius: 0,
     alignSelf: 'flex-start',
     margin: 10,
   },
   cardAlignRight: {
     width: '70%',
     borderRadius: 20,
+    borderBottomRightRadius: 0,
     alignSelf: 'flex-end',
     margin: 10,
   },
@@ -24,9 +25,10 @@ const useStyles = makeStyles({
     alignSelf: 'center',
     color: '#3f51b5',
     margin: 10,
+    paddingBottom: '5px',
   },
   cardContent: {
-    padding: '15px',
+    padding: 10,
   },
   title: {
     fontSize: '1rem',
@@ -34,7 +36,6 @@ const useStyles = makeStyles({
   time: {
     display: 'flex',
     justifyContent: 'flex-end',
-    fontSize: '0.6rem',
   },
 });
 
@@ -46,6 +47,8 @@ interface Props {
 export const ChatMessage: React.FC<Props> = (props) => {
   const { userName, message, timestamp } = props.message;
   const classes = useStyles();
+
+  const time = new Date(timestamp).toLocaleString();
 
   let cardClass: typeof classes.cardAlignRight;
   switch (userName) {
@@ -62,7 +65,7 @@ export const ChatMessage: React.FC<Props> = (props) => {
 
   return (
     <Card raised className={cardClass}>
-      <CardContent className={classes.cardContent}>
+      <div className={classes.cardContent}>
         <Typography className={classes.title} color="textSecondary">
           {userName} says:
         </Typography>
@@ -70,9 +73,11 @@ export const ChatMessage: React.FC<Props> = (props) => {
           {message}
         </Typography>
         <div className={classes.time}>
-          <Typography color="textSecondary">{timestamp}</Typography>
+          <Typography variant="caption" color="textSecondary">
+            {time}
+          </Typography>
         </div>
-      </CardContent>
+      </div>
     </Card>
   );
 };
