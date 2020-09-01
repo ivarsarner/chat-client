@@ -16,6 +16,10 @@ This is a web chat application which is divided in 2 parts:
 
 - npm start
 
+## Known bugs
+
+- The number of users who are currently typing does not update correctly, it does reset the timer on the server however
+
 ### Screenshots
 
 #### Landing page
