@@ -31,8 +31,10 @@ export const ChatForm: React.FC<Props> = ({ submit, isTyping }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    submit(newMessage);
-    setNewMessage('');
+    if (newMessage) {
+      submit(newMessage);
+      setNewMessage('');
+    }
   };
 
   useEffect(() => {
