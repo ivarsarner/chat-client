@@ -12,6 +12,10 @@ This is a web chat application which is divided in 2 parts:
 - Websockets (Socket.io)
 - Typescript
 
+## Run locally
+
+- npm start
+
 ### Screenshots
 
 #### Landing page
