@@ -58,11 +58,11 @@ const ChatPage: React.FC<Props> = ({
         />
       </Grid>
       <Grid item xs={2} className={classes.chatUserListGrid}>
-        <UserList users={connectedUsers} />
+        {/* <UserList users={connectedUsers} /> */}
       </Grid>
       <Grid item xs={10} className={classes.chatFeedGrid}>
-        <ChatFeed messages={messages} />
-        <ChatForm sendMessage={chatActions.sendMessage} />
+        {/* <ChatFeed messages={messages} /> */}
+        <ChatForm submit={chatActions.sendMessage} />
       </Grid>
     </Grid>
 

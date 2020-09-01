@@ -1,24 +1,28 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { List, ListItem, ListItemText } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { User } from '../../store/types';
 
+const useStyles = makeStyles({
+  root: {
+    height: '100%',
+  },
+});
+
 interface Props {
-  users: User[];
+  connectedUsers: User[];
 }
 
-export const UserList: React.FC<Props> = ({ users }) => {
+export const UserList: React.FC<Props> = ({ connectedUsers }) => {
+  const classes = useStyles();
+
   return (
-    <>
-      <Typography variant="subtitle2" gutterBottom>
-        Users in chat: {users.length}
-      </Typography>
-      <ul>
-        {users.map((user) => (
-          <div key={user.id}>
-            <span>{user.userName}</span>
-          </div>
-        ))}
-      </ul>
-    </>
+    <List>
+      {connectedUsers.map((user) => (
+        <ListItem key={user.id}>
+          <ListItemText primary={user.userName} />
+        </ListItem>
+      ))}
+    </List>
   );
 };

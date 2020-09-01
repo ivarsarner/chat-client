@@ -11,6 +11,7 @@ import {
 } from '../../store/actions';
 
 import Chat from '../../components/chat';
+import { ChatMain } from '../../components/chat/ChatMain';
 
 export const ChatContainer: React.FC = () => {
   const {
@@ -59,7 +60,7 @@ export const ChatContainer: React.FC = () => {
   }, []);
 
   return (
-    <Chat
+    <ChatMain
       currentUser={currentUser}
       messages={messages}
       connectedUsers={connectedUsers}
