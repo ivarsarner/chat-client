@@ -20,7 +20,7 @@ import { User, Message } from '../../store/types';
 import { ChatFeed } from './ChatFeed';
 import { ChatForm } from './ChatForm';
 import { ChatTopBar } from './ChatTopBar';
-import { connectUser } from '../../store/actions';
+import { userConnected } from '../../store/actions';
 
 const drawerWidth = 240;
 

@@ -113,17 +113,6 @@ export const ChatTopBar: React.FC<Props> = ({
             Disconnect
           </Button>
         </div>
-        {/*    <IconButton
-          color="inherit"
-          aria-label="disconnect"
-          edge="start"
-          onClick={onClick}
-        >
-          <Typography variant="subtitle2" noWrap>
-            Disconnect
-          </Typography>
-          <MeetingRoomIcon />
-        </IconButton> */}
       </div>
     </div>
   );
@@ -142,7 +131,7 @@ export const ChatTopBar: React.FC<Props> = ({
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Welcome {userName}
+            Chat
           </Typography>
         </Toolbar>
       </AppBar>

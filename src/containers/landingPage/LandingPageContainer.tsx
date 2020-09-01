@@ -9,10 +9,11 @@ import { RootState } from '../../store';
 import {
   newError,
   storeSocket,
-  connectUser,
+  userConnected,
   storeMessage,
   storeConnectedUsers,
   disconnect,
+  clearError,
 } from '../../store/actions';
 
 export const LandingPageContainer: React.FC = () => {
@@ -23,8 +24,11 @@ export const LandingPageContainer: React.FC = () => {
     (state: RootState) => state.chatReducer
   );
 
-  const connectToSocketServer = (userName: string) => {
-    const newSocket = io(socketUrl, { query: { userName } });
+  const connectToSocketServer = (userName: string): void => {
+    const newSocket = io(socketUrl, {
+      reconnection: false,
+      query: { userName },
+    });
     setNewUser({
       id: newSocket.id,
       userName,
@@ -32,35 +36,61 @@ export const LandingPageContainer: React.FC = () => {
     dispatch(storeSocket(newSocket));
   };
 
+  const clearInputError = (): void => {
+    dispatch(clearError());
+  };
+
   useEffect(() => {
     if (socket && newUser) {
       socket.on('connect', (): void => {
-        dispatch(connectUser(newUser));
+        dispatch(userConnected(newUser));
+        dispatch(clearError());
       });
 
-      socket.on('server_terminated', () => {
+      socket.once('connect_error', () => {
         dispatch(
           newError({
             isError: true,
-            errorCode: 'server_terminated',
-            errorMessage: 'The server has terminated',
+            errorCode: 'server_not_responding',
+            errorMessage: 'Server not responding',
           })
         );
-        dispatch(disconnect());
       });
 
       socket.on('disconnect', (reason: string) => {
-        console.log(reason);
-        if (reason === 'io server disconnect') {
-          dispatch(
-            newError({
-              isError: true,
-              errorCode: 'inactivity_disconnect',
-              errorMessage: 'You were disconnected due to inactivity',
-            })
-          );
+        switch (reason) {
+          case 'io server disconnect':
+            dispatch(
+              newError({
+                isError: true,
+                errorCode: 'inactivity_disconnect',
+                errorMessage: 'You were disconnected due to inactivity',
+              })
+            );
+            dispatch(disconnect());
+            break;
+          case 'transport close':
+            dispatch(
+              newError({
+                isError: true,
+                errorCode: 'server_terminated',
+                errorMessage: 'The server has terminated',
+              })
+            );
+            dispatch(disconnect());
+            break;
+
+          default:
+            dispatch(
+              newError({
+                isError: true,
+                errorCode: 'general_error',
+                errorMessage: 'Something went wrong, please try again',
+              })
+            );
+            dispatch(disconnect());
+            break;
         }
-        dispatch(disconnect());
       });
 
       socket.on('error', (errorCode: string): void => {
@@ -68,10 +98,13 @@ export const LandingPageContainer: React.FC = () => {
 
         switch (errorCode) {
           case 'userName_taken':
-            errorMessage = 'That name is already taken';
+            errorMessage = 'username is already taken';
             break;
-          case 'server_offline':
-            errorMessage = 'The server is offline';
+          case 'userName_length':
+            errorMessage = 'username needs to be 3-12 characters';
+            break;
+          case 'userName_server':
+            errorMessage = 'username "SERVER" is not allowed';
             break;
           default:
             errorMessage = 'An error has occured';
@@ -84,7 +117,11 @@ export const LandingPageContainer: React.FC = () => {
 
   return (
     <>
-      <LandingPage error={error} submit={connectToSocketServer} />
+      <LandingPage
+        error={error}
+        submit={connectToSocketServer}
+        clearError={clearInputError}
+      />
     </>
   );
 };

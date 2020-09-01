@@ -7,7 +7,7 @@ import {
   Error,
 } from '../types';
 
-export const connectUser = (user: User): ChatActionTypes => ({
+export const userConnected = (user: User): ChatActionTypes => ({
   type: ChatActions.USER_CONNECTED,
   payload: user,
 });

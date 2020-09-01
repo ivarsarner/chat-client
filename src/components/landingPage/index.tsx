@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, Typography, Container } from '@material-ui/core/';
 
+import { Loader } from './Loader';
 import { Error } from '../../store/types';
 
 const useStyles = makeStyles({
@@ -28,22 +29,45 @@ const useStyles = makeStyles({
 interface Props {
   error: Error;
   submit: (message: string) => void;
+  clearError: () => void;
 }
 
-const LandingPage: React.FC<Props> = ({ error, submit }) => {
+const LandingPage: React.FC<Props> = ({ error, submit, clearError }) => {
   const classes = useStyles();
 
   const [text, setText] = useState('');
+  const [validationError, setValidationError] = useState('');
+  const [connecting, setConnecting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    clearError();
+    setValidationError('');
     setText(e.target.value);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     submit(text);
+    setConnecting(true);
     setText('');
   };
+
+  useEffect(() => {
+    const regex = /\b\w{3,12}\b/i;
+    if (text) {
+      if (!regex.test(text)) {
+        setValidationError('Username needs to be 3-12 characters long');
+      } else {
+        setValidationError('');
+      }
+    }
+  }, [text]);
+
+  useEffect(() => {
+    if (error) {
+      setConnecting(false);
+    }
+  }, [error]);
 
   return (
     <Container className={classes.landingPageRoot}>
@@ -58,8 +82,8 @@ const LandingPage: React.FC<Props> = ({ error, submit }) => {
       >
         <TextField
           className={classes.landingPageFormInput}
-          error={error.isError}
-          helperText={error.errorMessage}
+          error={!!(error.isError || validationError)}
+          helperText={error.errorMessage || validationError}
           autoFocus
           rows={2}
           rowsMax={2}
@@ -72,10 +96,12 @@ const LandingPage: React.FC<Props> = ({ error, submit }) => {
           className={classes.landingPageFormSubmitBtn}
           variant="contained"
           color="primary"
+          disabled={!!(connecting || validationError)}
         >
           Connect
         </Button>
       </form>
+      {connecting && <Loader />}
     </Container>
   );
 };
