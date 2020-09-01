@@ -79,14 +79,6 @@ export const LandingPageContainer: React.FC = () => {
             break;
 
           default:
-            dispatch(
-              newError({
-                isError: true,
-                errorCode: 'general_error',
-                errorMessage: 'Something went wrong, please try again',
-              })
-            );
-            dispatch(disconnect());
             break;
         }
       });
@@ -105,13 +97,12 @@ export const LandingPageContainer: React.FC = () => {
             errorMessage = 'username "SERVER" is not allowed';
             break;
           default:
-            errorMessage = 'An error has occured';
             break;
         }
         dispatch(newError({ isError: true, errorCode, errorMessage }));
       });
     }
-  }, [socket]);
+  }, [socket, newUser, dispatch]);
 
   return (
     <>

@@ -41,7 +41,7 @@ export const ChatForm: React.FC<Props> = ({ submit, isTyping }) => {
     } else {
       isTyping(false);
     }
-  }, [newMessage]);
+  }, [newMessage, isTyping]);
 
   return (
     <form

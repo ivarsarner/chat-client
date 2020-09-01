@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from '../../store';
@@ -36,11 +36,14 @@ export const ChatContainer: React.FC = () => {
     }
   };
 
-  const isTyping = (typing: boolean): void => {
-    if (socket) {
-      socket.emit(typing ? 'typing' : 'stopped_typing');
-    }
-  };
+  const isTyping = useCallback(
+    (typing: boolean) => {
+      if (socket) {
+        socket.emit(typing ? 'typing' : 'stopped_typing');
+      }
+    },
+    [socket]
+  );
 
   useEffect(() => {
     if (socket) {
@@ -56,7 +59,7 @@ export const ChatContainer: React.FC = () => {
         dispatch(storeTypingUsers(users));
       });
     }
-  }, []);
+  }, [socket, dispatch]);
 
   return (
     <ChatMain
