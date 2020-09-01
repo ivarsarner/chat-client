@@ -38,9 +38,9 @@ export const ChatContainer: React.FC = () => {
     }
   };
 
-  const isTyping = (): void => {
+  const isTyping = (typing: boolean): void => {
     if (socket) {
-      socket.emit('typing');
+      socket.emit(typing ? 'typing' : 'stopped_typing');
     }
   };
 
@@ -54,7 +54,7 @@ export const ChatContainer: React.FC = () => {
         dispatch(storeConnectedUsers(users));
       });
 
-      socket.on('typing_users', (users: User[]) => {
+      socket.on('typing', (users: User[]) => {
         dispatch(storeTypingUsers(users));
       });
     }

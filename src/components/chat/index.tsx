@@ -50,21 +50,7 @@ const ChatPage: React.FC<Props> = ({
   const classes = useStyles();
 
   return (
-    <Grid container className={classes.root}>
-      <Grid item xs={12} className={classes.chatHeaderGrid}>
-        <ChatHeader
-          userName={currentUser.userName}
-          onClick={chatActions.disconnectUser}
-        />
-      </Grid>
-      <Grid item xs={2} className={classes.chatUserListGrid}>
-        {/* <UserList users={connectedUsers} /> */}
-      </Grid>
-      <Grid item xs={10} className={classes.chatFeedGrid}>
-        {/* <ChatFeed messages={messages} /> */}
-        <ChatForm submit={chatActions.sendMessage} />
-      </Grid>
-    </Grid>
+    <Grid container className={classes.root} />
 
     /*     <>
       <Paper className={classes.paper} square>

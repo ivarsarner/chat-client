@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core/';
 
@@ -17,9 +17,10 @@ const useStyles = makeStyles({
 
 interface Props {
   submit: (message: string) => void;
+  isTyping: (typing: boolean) => void;
 }
 
-export const ChatForm: React.FC<Props> = ({ submit }) => {
+export const ChatForm: React.FC<Props> = ({ submit, isTyping }) => {
   const classes = useStyles();
 
   const [newMessage, setNewMessage] = useState('');
@@ -33,6 +34,14 @@ export const ChatForm: React.FC<Props> = ({ submit }) => {
     submit(newMessage);
     setNewMessage('');
   };
+
+  useEffect(() => {
+    if (newMessage) {
+      isTyping(true);
+    } else {
+      isTyping(false);
+    }
+  }, [newMessage]);
 
   return (
     <form
