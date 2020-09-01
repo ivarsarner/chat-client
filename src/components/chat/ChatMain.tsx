@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     chatFeedWrapper: {
       height: '90%',
+      maxHeight: '90vh',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',

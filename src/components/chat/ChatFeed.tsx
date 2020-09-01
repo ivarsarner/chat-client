@@ -6,6 +6,7 @@ import { ChatMessage } from './ChatMessage';
 
 const useStyles = makeStyles({
   root: {
+    maxHeight: '70vh',
     overflow: 'auto',
   },
   chatFeed: {
