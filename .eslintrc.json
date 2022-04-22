@@ -13,6 +13,15 @@
     }
   },
   "rules": {
+    "import/extensions": [
+      "error",
+      "never",
+      {
+        "js": "never",
+        "mjs": "never",
+        "jsx": "never"
+      }
+    ],
     "no-console": "off",
     "object-curly-spacing": ["warn", "always"],
     "no-unused-vars": [

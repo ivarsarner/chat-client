@@ -6,6 +6,11 @@ import * as dotenv from 'dotenv';
 import { App } from './containers/app';
 import { store } from './store';
 
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 dotenv.config();
 
 ReactDOM.render(
